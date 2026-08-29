@@ -94,5 +94,11 @@ export class Inventory extends Model {
   vendorName: string;
 
   @Column({ type: "varchar", length: 150, nullable: true })
+  specification: string;
+
+  @Column({ type: "varchar", length: 150, nullable: true })
+  category: string;
+
+  @Column({ type: "varchar", length: 150, nullable: true })
   stockLocation: string;
 }

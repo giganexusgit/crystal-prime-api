@@ -22,6 +22,8 @@ export const createInventorySchema = z.object({
   prices: z.number().min(0).optional(),
   date: z.string().optional(),
   vendorName: z.string().optional(),
+  specification: z.string().optional(),
+  category: z.string().optional(),
   stockLocation: z.string().optional(),
 });
 
