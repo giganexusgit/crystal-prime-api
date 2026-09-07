@@ -374,11 +374,9 @@ export const LeadService = () => {
         { search },
       );
 
-      if (userId) {
-        query = query.andWhere("assigned_to.id = :assignedToId", {
-          assignedToId,
-        });
-      }
+      query = query.andWhere("assigned_to.id = :assignedToId", {
+        assignedToId,
+      });
     }
 
     if (statusId && statusId !== "All Status") {
