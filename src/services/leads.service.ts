@@ -379,6 +379,9 @@ export const LeadService = () => {
       });
     }
 
+    console.log("query", query);
+    console.log("assignedToId", assignedToId);
+
     if (statusId && statusId !== "All Status") {
       query = query.andWhere("status.id = :statusId", { statusId });
     }
@@ -458,9 +461,6 @@ export const LeadService = () => {
     query.skip(skip).take(limit);
 
     const [leads, total] = await query.getManyAndCount();
-
-    console.log("leads", leads);
-    console.log("leads", leads);
 
     return {
       data: leads,
