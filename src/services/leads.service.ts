@@ -376,7 +376,7 @@ export const LeadService = () => {
 
       if (userId) {
         query = query.andWhere("assigned_to.id = :assignedToId", {
-          userId,
+          assignedToId,
         });
       }
     }
