@@ -373,6 +373,12 @@ export const LeadService = () => {
          OR LOWER(lead.email) LIKE :search`,
         { search },
       );
+
+      if (userId) {
+        query = query.andWhere("assigned_to.id = :userId", {
+          userId,
+        });
+      }
     }
 
     if (statusId && statusId !== "All Status") {
