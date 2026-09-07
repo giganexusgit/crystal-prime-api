@@ -375,7 +375,7 @@ export const LeadService = () => {
       );
 
       if (userId) {
-        query = query.andWhere("assigned_to.id = :userId", {
+        query = query.andWhere("assigned_to.id = :assignedToId", {
           userId,
         });
       }
@@ -460,6 +460,9 @@ export const LeadService = () => {
     query.skip(skip).take(limit);
 
     const [leads, total] = await query.getManyAndCount();
+
+    console.log("leads", leads);
+    console.log("leads", leads);
 
     return {
       data: leads,
