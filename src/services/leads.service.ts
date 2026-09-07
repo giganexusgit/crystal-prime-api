@@ -374,12 +374,13 @@ export const LeadService = () => {
         { search },
       );
 
-      query = query.andWhere("assigned_to.id = :assignedToId", {
-        assignedToId,
+      query = query.andWhere("assigned_to.id = :userId", {
+        userId,
       });
     }
 
-    console.log("assignedToId", assignedToId);
+    console.log("assignedToId", userId);
+    
 
     if (statusId && statusId !== "All Status") {
       query = query.andWhere("status.id = :statusId", { statusId });
