@@ -379,7 +379,6 @@ export const LeadService = () => {
       });
     }
 
-    console.log("query", query);
     console.log("assignedToId", assignedToId);
 
     if (statusId && statusId !== "All Status") {
