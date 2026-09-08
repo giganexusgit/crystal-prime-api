@@ -363,9 +363,9 @@ export const LeadService = () => {
     }
 
     console.log("role", role);
-    if ((role as any)?.name?.toLowerCase() !== "admin") {
-      query = query.andWhere("assigned_to.id = :userId", { userId });
-    }
+    // if ((role as any)?.name?.toLowerCase() !== "admin") {
+    //   query = query.andWhere("assigned_to.id = :userId", { userId });
+    // }
 
     if (searchText && searchText.trim() !== "") {
       const search = `%${searchText.trim().toLowerCase()}%`;
