@@ -360,15 +360,15 @@ export const LeadService = () => {
     //   query = query.andWhere("assigned_to.id = :userId", { userId });
     // }
 
-    if (role?.trim().toLowerCase() !== "admin") {
-      if (!userId) {
-        throw new Error("User ID is required");
-      }
-      const testId = "1ddc0f57-093e-4077-a4b6-3cc42df14587";
-      query = query.andWhere("assigned_to.id = :userId", {
-        userId: testId,
-      });
-    }
+    // if (role?.trim().toLowerCase() !== "admin") {
+    //   if (!userId) {
+    //     throw new Error("User ID is required");
+    //   }
+    //   const testId = "1ddc0f57-093e-4077-a4b6-3cc42df14587";
+    //   query = query.andWhere("assigned_to.id = :userId", {
+    //     userId: testId,
+    //   });
+    // }
 
     console.log("role", role);
     console.log("assignedToId", assignedToId);
@@ -466,9 +466,19 @@ export const LeadService = () => {
     query.skip(skip).take(limit);
 
     const [leads, total] = await query.getManyAndCount();
+    let filteredLeads = leads;
 
+    if (role?.trim().toLowerCase() !== "admin") {
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
+
+      filteredLeads = leads.filter(
+        (lead: any) => lead.assigned_to?.id === userId,
+      );
+    }
     return {
-      data: leads,
+      data: filteredLeads,
       pagination: {
         total,
         page,
