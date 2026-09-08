@@ -351,7 +351,7 @@ export const LeadService = () => {
       .leftJoinAndSelect("lead.source", "source")
       .leftJoinAndSelect("lead.status", "status")
       .leftJoinAndSelect("lead.assigned_to", "assigned_to")
-      .leftJoinAndSelect("lead.assigned_to.id", "assigned_to")
+      .addWhere("lead.assigned_to.id", "assigned_to")
       .leftJoinAndSelect("lead.type", "type")
       .leftJoinAndSelect("lead.followups", "followup")
       .where("lead.deleted = false");
