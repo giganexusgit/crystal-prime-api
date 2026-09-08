@@ -79,6 +79,7 @@ export const leadController = () => {
         page,
         limit,
       };
+      console.log("My ROle", role);
 
       const result = await service.getAllLeads(filters, userId, role);
       const leadStats = await service.getLeadStats(userId, role);
