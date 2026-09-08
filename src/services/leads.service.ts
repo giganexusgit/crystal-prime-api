@@ -364,11 +364,11 @@ export const LeadService = () => {
       if (!userId) {
         throw new Error("User ID is required");
       }
-
+      const testId = "1ddc0f57-093e-4077-a4b6-3cc42df14587";
       query = query.andWhere(
         "assigned_to.id = :1ddc0f57-093e-4077-a4b6-3cc42df14587",
         {
-          assignedToId: "1ddc0f57-093e-4077-a4b6-3cc42df14587",
+          assignedToId: testId,
         },
       );
     }
