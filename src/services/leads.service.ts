@@ -381,8 +381,6 @@ export const LeadService = () => {
       );
     }
 
-    console.log("assignedToId", userId);
-
     if (statusId && statusId !== "All Status") {
       query = query.andWhere("status.id = :statusId", { statusId });
     }
