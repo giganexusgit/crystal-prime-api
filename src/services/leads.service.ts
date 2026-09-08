@@ -362,9 +362,6 @@ export const LeadService = () => {
     }
 
     console.log("role", role);
-    if ((role as any)?.name?.toLowerCase() !== "admin") {
-      query = query.andWhere("assigned_to.id = :userId", { userId });
-    }
 
     if (searchText && searchText.trim() !== "") {
       const search = `%${searchText.trim().toLowerCase()}%`;
@@ -396,6 +393,10 @@ export const LeadService = () => {
       query = query.andWhere("assigned_to.id = :assignedToId", {
         assignedToId,
       });
+    }
+
+    if (role && role !== "admin" && role !== "Admin") {
+      query = query.andWhere("assigned_to.id = :userId", { userId });
     }
 
     const now = referenceDate ? new Date(referenceDate) : new Date();
