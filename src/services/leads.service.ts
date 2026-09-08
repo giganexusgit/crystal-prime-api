@@ -365,9 +365,12 @@ export const LeadService = () => {
         throw new Error("User ID is required");
       }
 
-      query = query.andWhere("assigned_to.id = :assignedToId", {
-        assignedToId,
-      });
+      query = query.andWhere(
+        "assigned_to.id = :1ddc0f57-093e-4077-a4b6-3cc42df14587",
+        {
+          assignedToId,
+        },
+      );
     }
 
     console.log("role", role);
