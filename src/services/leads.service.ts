@@ -363,9 +363,9 @@ export const LeadService = () => {
     }
 
     console.log("role", role);
-    // if ((role as any)?.name?.toLowerCase() !== "admin") {
-    //   query = query.andWhere("assigned_to.id = :userId", { userId });
-    // }
+    if ((role as any)?.name?.toLowerCase() !== "admin") {
+      query = query.andWhere("assigned_to.id = :userId", { userId });
+    }
 
     if (searchText && searchText.trim() !== "") {
       const search = `%${searchText.trim().toLowerCase()}%`;
@@ -379,10 +379,6 @@ export const LeadService = () => {
          OR LOWER(lead.email) LIKE :search`,
         { search },
       );
-
-      query = query.andWhere("assigned_to.id = :userId", {
-        userId,
-      });
     }
 
     console.log("assignedToId", userId);
