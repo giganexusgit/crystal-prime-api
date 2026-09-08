@@ -395,10 +395,6 @@ export const LeadService = () => {
       });
     }
 
-    if (role && role !== "admin" && role !== "Admin") {
-      query = query.andWhere("assigned_to.id = :userId", { userId });
-    }
-
     const now = referenceDate ? new Date(referenceDate) : new Date();
 
     if (dateRange && dateRange !== "All") {
@@ -454,6 +450,10 @@ export const LeadService = () => {
       query = query.andWhere("followup.due_date <= :followupTo", {
         followupTo,
       });
+    }
+
+    if (role && role !== "admin" && role !== "Admin") {
+      query = query.andWhere("assigned_to.id = :userId", { userId });
     }
 
     query.orderBy("lead.created_at", "DESC");
