@@ -365,13 +365,13 @@ export const LeadService = () => {
         throw new Error("User ID is required");
       }
 
-      query = query.andWhere("assigned_to.id = :userId", {
-        userId,
+      query = query.andWhere("assigned_to.id = :assignedToId", {
+        assignedToId,
       });
     }
 
     console.log("role", role);
-    console.log("userId", userId);
+    console.log("assignedToId", assignedToId);
 
     if (searchText && searchText.trim() !== "") {
       const search = `%${searchText.trim().toLowerCase()}%`;
