@@ -351,14 +351,24 @@ export const LeadService = () => {
       .leftJoinAndSelect("lead.source", "source")
       .leftJoinAndSelect("lead.status", "status")
       .leftJoinAndSelect("lead.assigned_to", "assigned_to")
-      // .leftJoinAndSelect("lead.assigned_to.id", assignedToId)
+      .leftJoinAndSelect("lead.assigned_to.id", "assigned_to")
       .leftJoinAndSelect("lead.type", "type")
       .leftJoinAndSelect("lead.followups", "followup")
       .where("lead.deleted = false");
 
     // Role-based filtering - non-admins can only see their assigned leads
-    if (role && role !== "admin" && role !== "Admin") {
-      query = query.andWhere("assigned_to.id = :userId", { userId });
+    // if (role && role !== "admin" && role !== "Admin") {
+    //   query = query.andWhere("assigned_to.id = :userId", { userId });
+    // }
+
+    if (role?.trim().toLowerCase() !== "admin") {
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
+
+      query = query.andWhere("assigned_to.id = :userId", {
+        userId,
+      });
     }
 
     console.log("role", role);
@@ -451,10 +461,6 @@ export const LeadService = () => {
       query = query.andWhere("followup.due_date <= :followupTo", {
         followupTo,
       });
-    }
-
-    if (role && role !== "admin" && role !== "Admin") {
-      query = query.andWhere("assigned_to.id = :userId", { userId });
     }
 
     query.orderBy("lead.created_at", "DESC");
