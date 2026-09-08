@@ -79,7 +79,6 @@ export const LeadService = () => {
       type_id,
       assigned_to,
     } = data;
-    console.log("data", data);
 
     // Validate email (optional now)
     if (email && typeof email !== "string") {
@@ -352,7 +351,7 @@ export const LeadService = () => {
       .leftJoinAndSelect("lead.source", "source")
       .leftJoinAndSelect("lead.status", "status")
       .leftJoinAndSelect("lead.assigned_to", "assigned_to")
-      .leftJoinAndSelect("lead.assigned_to.id", assignedToId)
+      // .leftJoinAndSelect("lead.assigned_to.id", assignedToId)
       .leftJoinAndSelect("lead.type", "type")
       .leftJoinAndSelect("lead.followups", "followup")
       .where("lead.deleted = false");
@@ -1295,8 +1294,6 @@ export const LeadService = () => {
     const data = await response.json();
     const fieldData = data.field_data;
 
-    console.log("\n\n\n\n\nMeta Lead Data:", data, "\n\n\n");
-
     const mapped: Record<string, any> = {};
 
     for (const item of fieldData) {
@@ -1327,7 +1324,6 @@ export const LeadService = () => {
         if (adResp.ok) {
           const adData = await adResp.json();
           campaignName = adData?.adset?.campaign?.name || null;
-          console.log("\n\n\n\nCampaign Name:", campaignName, "\n\n\n");
         }
       }
     } catch (err) {
