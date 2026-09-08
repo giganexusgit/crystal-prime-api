@@ -352,12 +352,18 @@ export const LeadService = () => {
       .leftJoinAndSelect("lead.source", "source")
       .leftJoinAndSelect("lead.status", "status")
       .leftJoinAndSelect("lead.assigned_to", "assigned_to")
+      .leftJoinAndSelect("lead.assigned_to.id", assignedToId)
       .leftJoinAndSelect("lead.type", "type")
       .leftJoinAndSelect("lead.followups", "followup")
       .where("lead.deleted = false");
 
     // Role-based filtering - non-admins can only see their assigned leads
     if (role && role !== "admin" && role !== "Admin") {
+      query = query.andWhere("assigned_to.id = :userId", { userId });
+    }
+
+    console.log("role", role);
+    if ((role as any)?.name?.toLowerCase() !== "admin") {
       query = query.andWhere("assigned_to.id = :userId", { userId });
     }
 
@@ -380,7 +386,6 @@ export const LeadService = () => {
     }
 
     console.log("assignedToId", userId);
-    
 
     if (statusId && statusId !== "All Status") {
       query = query.andWhere("status.id = :statusId", { statusId });
