@@ -552,7 +552,7 @@ export const LeadService = () => {
         .leftJoin("lead.status", "status")
         .where("lead.deleted = :deleted", { deleted: false })
         .andWhere("LOWER(status.name) IN (:...statuses)", {
-          statuses: ["business done", "completed"], // Add more if needed
+          statuses: ["business done", "completed", "converted to client"], // Add more if needed
         })
         .andWhere(isAdmin ? "1=1" : "lead.assigned_to = :userId", { userId })
         .getCount(),
@@ -653,7 +653,10 @@ export const LeadService = () => {
 
         //Status is completed add lead into client table.
         const currentStatus = status?.name?.toLocaleLowerCase();
-        if (currentStatus === "business done") {
+        if (
+          currentStatus === "business done" ||
+          currentStatus === "converted to client"
+        ) {
           const existingLead = await clientRepo.findOne({
             where: {
               lead: { id: lead.id },
@@ -1176,7 +1179,11 @@ export const LeadService = () => {
     const end = new Date();
     end.setHours(23, 59, 59, 999);
 
-    const convertedStatuses = ["business done", "completed"];
+    const convertedStatuses = [
+      "business done",
+      "completed",
+      "converted to client",
+    ];
 
     // Base query for assigned leads
     const leadQb = leadRepo
