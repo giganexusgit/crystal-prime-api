@@ -372,6 +372,7 @@ export const LeadService = () => {
 
     console.log("role", role);
     console.log("assignedToId", assignedToId);
+    console.log("userId", userId);
 
     if (searchText && searchText.trim() !== "") {
       const search = `%${searchText.trim().toLowerCase()}%`;
