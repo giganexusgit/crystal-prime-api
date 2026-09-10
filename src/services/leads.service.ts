@@ -468,16 +468,22 @@ export const LeadService = () => {
 
     const [leads, total] = await query.getManyAndCount();
     let filteredLeads = leads;
+    console.log("filteredLeads 1", filteredLeads.length);
 
     if (role?.trim().toLowerCase() !== "admin") {
       if (!userId) {
         throw new Error("User ID is required");
       }
 
+      console.log("1 userId", userId);
+      
       filteredLeads = leads.filter(
         (lead: any) => String(lead.assigned_to?.id) === String(userId),
       );
+
+
     }
+    console.log("filteredLeads 2", filteredLeads.length);
     return {
       data: filteredLeads,
       pagination: {
