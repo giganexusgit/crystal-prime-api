@@ -462,6 +462,15 @@ export const LeadService = () => {
         followupTo,
       });
     }
+    if (role?.trim().toLowerCase() !== "admin") {
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
+
+      query.andWhere("assigned_to.id = :userId", {
+        userId,
+      });
+    }
 
     query.orderBy("lead.created_at", "DESC");
     query.skip(skip).take(limit);
@@ -470,16 +479,16 @@ export const LeadService = () => {
     let filteredLeads = leads;
     console.log("filteredLeads 1", filteredLeads.length);
 
-    if (role?.trim().toLowerCase() !== "admin") {
-      if (!userId) {
-        throw new Error("User ID is required");
-      }
+    // if (role?.trim().toLowerCase() !== "admin") {
+    //   if (!userId) {
+    //     throw new Error("User ID is required");
+    //   }
 
-      filteredLeads = leads.filter((lead: any) => {
-        console.log(lead.assigned_to?.id, "1 userId", userId);
-        return String(lead.assigned_to?.id) === String(userId);
-      });
-    }
+    //   filteredLeads = leads.filter((lead: any) => {
+    //     console.log(lead.assigned_to?.id, "1 userId", userId);
+    //     return String(lead.assigned_to?.id) === String(userId);
+    //   });
+    // }
     console.log("filteredLeads 2", filteredLeads.length);
     return {
       data: filteredLeads,
