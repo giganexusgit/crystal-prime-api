@@ -475,13 +475,13 @@ export const LeadService = () => {
       }
 
       filteredLeads = leads.filter(
-        (lead: any) => lead.assigned_to?.id === userId,
+        (lead: any) => String(lead.assigned_to?.id) === String(userId),
       );
     }
     return {
       data: filteredLeads,
       pagination: {
-        total,
+        total: filteredLeads.length,
         page,
         limit,
         totalPages: Math.ceil(total / limit),
