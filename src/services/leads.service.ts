@@ -475,13 +475,10 @@ export const LeadService = () => {
         throw new Error("User ID is required");
       }
 
-      console.log("1 userId", userId);
-      
-      filteredLeads = leads.filter(
-        (lead: any) => String(lead.assigned_to?.id) === String(userId),
-      );
-
-
+      filteredLeads = leads.filter((lead: any) => {
+        console.log(lead.assigned_to?.id, "1 userId", userId);
+        return String(lead.assigned_to?.id) === String(userId);
+      });
     }
     console.log("filteredLeads 2", filteredLeads.length);
     return {
