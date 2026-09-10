@@ -325,6 +325,182 @@ export const LeadService = () => {
   };
 
   // Get All Leads
+  // const getAllLeads = async (
+  //   filters: any = {},
+  //   userId?: string,
+  //   role?: string,
+  // ) => {
+  //   const page = Number(filters.page) > 0 ? Number(filters.page) : 1;
+  //   const limit = Number(filters.limit) > 0 ? Number(filters.limit) : 10;
+  //   const skip = (page - 1) * limit;
+
+  //   const {
+  //     searchText,
+  //     statusId,
+  //     typeId,
+  //     dateRange,
+  //     referenceDate,
+  //     followupFrom,
+  //     followupTo,
+  //     sourceId,
+  //     assignedToId,
+  //   } = filters;
+
+  //   let query = leadRepo
+  //     .createQueryBuilder("lead")
+  //     .leftJoinAndSelect("lead.source", "source")
+  //     .leftJoinAndSelect("lead.status", "status")
+  //     .leftJoinAndSelect("lead.assigned_to", "assigned_to")
+  //     .leftJoinAndSelect("lead.type", "type")
+  //     .leftJoinAndSelect("lead.followups", "followup")
+  //     .where("lead.deleted = false");
+
+  //   // Role-based filtering - non-admins can only see their assigned leads
+  //   // if (role && role !== "admin" && role !== "Admin") {
+  //   //   query = query.andWhere("assigned_to.id = :userId", { userId });
+  //   // }
+
+  //   // if (role?.trim().toLowerCase() !== "admin") {
+  //   //   if (!userId) {
+  //   //     throw new Error("User ID is required");
+  //   //   }
+  //   //   const testId = "1ddc0f57-093e-4077-a4b6-3cc42df14587";
+  //   //   query = query.andWhere("assigned_to.id = :userId", {
+  //   //     userId: testId,
+  //   //   });
+  //   // }
+
+  //   console.log("role", role);
+  //   console.log("assignedToId", assignedToId);
+  //   console.log("userId", userId);
+
+  //   if (searchText && searchText.trim() !== "") {
+  //     const search = `%${searchText.trim().toLowerCase()}%`;
+  //     query = query.andWhere(
+  //       `LOWER(lead.first_name) LIKE :search
+  //        OR LOWER(lead.last_name) LIKE :search
+  //        OR LOWER(lead.company) LIKE :search
+  //        OR LOWER(lead.phone) LIKE :search
+  //        OR LOWER(lead.location) LIKE :search
+  //        OR LOWER(lead.requirement) LIKE :search
+  //        OR LOWER(lead.email) LIKE :search`,
+  //       { search },
+  //     );
+  //   }
+
+  //   if (statusId && statusId !== "All Status") {
+  //     query = query.andWhere("status.id = :statusId", { statusId });
+  //   }
+
+  //   if (typeId && typeId !== "All Type") {
+  //     query = query.andWhere("type.id = :typeId", { typeId });
+  //   }
+
+  //   if (sourceId && sourceId !== "All Source") {
+  //     query = query.andWhere("source.id = :sourceId", { sourceId });
+  //   }
+
+  //   if (assignedToId && assignedToId !== "All Assigned") {
+  //     query = query.andWhere("assigned_to.id = :assignedToId", {
+  //       assignedToId,
+  //     });
+  //   }
+
+  //   const now = referenceDate ? new Date(referenceDate) : new Date();
+
+  //   if (dateRange && dateRange !== "All") {
+  //     let start: Date | undefined = undefined;
+  //     let end: Date | undefined = undefined;
+
+  //     if (dateRange === "Daily") {
+  //       start = new Date(now);
+  //       start.setHours(0, 0, 0, 0);
+  //       end = new Date(now);
+  //       end.setHours(23, 59, 59, 999);
+  //     } else if (dateRange === "Weekly") {
+  //       start = new Date(now);
+  //       start.setDate(now.getDate() - now.getDay());
+  //       start.setHours(0, 0, 0, 0);
+  //       end = new Date(start);
+  //       end.setDate(start.getDate() + 6);
+  //       end.setHours(23, 59, 59, 999);
+  //     } else if (dateRange === "Monthly") {
+  //       start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
+  //       end = new Date(
+  //         now.getFullYear(),
+  //         now.getMonth() + 1,
+  //         0,
+  //         23,
+  //         59,
+  //         59,
+  //         999,
+  //       );
+  //     }
+
+  //     if (start && end) {
+  //       query = query.andWhere("lead.created_at BETWEEN :start AND :end", {
+  //         start,
+  //         end,
+  //       });
+  //     }
+  //   }
+
+  //   if (followupFrom && followupTo) {
+  //     query = query.andWhere(
+  //       "followup.due_date BETWEEN :followupFrom AND :followupTo",
+  //       {
+  //         followupFrom,
+  //         followupTo,
+  //       },
+  //     );
+  //   } else if (followupFrom) {
+  //     query = query.andWhere("followup.due_date >= :followupFrom", {
+  //       followupFrom,
+  //     });
+  //   } else if (followupTo) {
+  //     query = query.andWhere("followup.due_date <= :followupTo", {
+  //       followupTo,
+  //     });
+  //   }
+  //   if (role?.trim().toLowerCase() !== "admin") {
+  //     if (!userId) {
+  //       throw new Error("User ID is required");
+  //     }
+
+  //     query.andWhere("assigned_to.id = :userId", {
+  //       userId,
+  //     });
+  //   }
+
+  //   query.orderBy("lead.created_at", "DESC");
+  //   query.skip(skip).take(limit);
+
+  //   const [leads, total] = await query.getManyAndCount();
+  //   let filteredLeads = leads;
+  //   console.log("filteredLeads 1", filteredLeads.length);
+
+  //   // if (role?.trim().toLowerCase() !== "admin") {
+  //   //   if (!userId) {
+  //   //     throw new Error("User ID is required");
+  //   //   }
+
+  //   //   filteredLeads = leads.filter((lead: any) => {
+  //   //     console.log(lead.assigned_to?.id, "1 userId", userId);
+  //   //     return String(lead.assigned_to?.id) === String(userId);
+  //   //   });
+  //   // }
+  //   console.log("filteredLeads 2", filteredLeads.length);
+  //   return {
+  //     data: filteredLeads,
+  //     pagination: {
+  //       total: filteredLeads.length,
+  //       page,
+  //       limit,
+  //       totalPages: Math.ceil(total / limit),
+  //     },
+  //   };
+  // };
+
   const getAllLeads = async (
     filters: any = {},
     userId?: string,
@@ -346,7 +522,7 @@ export const LeadService = () => {
       assignedToId,
     } = filters;
 
-    let query = leadRepo
+    const query = leadRepo
       .createQueryBuilder("lead")
       .leftJoinAndSelect("lead.source", "source")
       .leftJoinAndSelect("lead.status", "status")
@@ -355,77 +531,93 @@ export const LeadService = () => {
       .leftJoinAndSelect("lead.followups", "followup")
       .where("lead.deleted = false");
 
-    // Role-based filtering - non-admins can only see their assigned leads
-    // if (role && role !== "admin" && role !== "Admin") {
-    //   query = query.andWhere("assigned_to.id = :userId", { userId });
-    // }
+    console.log("ROLE:", role);
+    console.log("USER ID:", userId);
+    console.log("ASSIGNED FILTER:", assignedToId);
 
-    // if (role?.trim().toLowerCase() !== "admin") {
-    //   if (!userId) {
-    //     throw new Error("User ID is required");
-    //   }
-    //   const testId = "1ddc0f57-093e-4077-a4b6-3cc42df14587";
-    //   query = query.andWhere("assigned_to.id = :userId", {
-    //     userId: testId,
-    //   });
-    // }
+    // Non-admin users can only see their own assigned leads
+    if (role?.trim().toLowerCase() !== "admin") {
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
 
-    console.log("role", role);
-    console.log("assignedToId", assignedToId);
-    console.log("userId", userId);
+      query.andWhere("assigned_to.id = :userId", {
+        userId,
+      });
+    }
 
+    // Search
     if (searchText && searchText.trim() !== "") {
       const search = `%${searchText.trim().toLowerCase()}%`;
-      query = query.andWhere(
-        `LOWER(lead.first_name) LIKE :search
-         OR LOWER(lead.last_name) LIKE :search
-         OR LOWER(lead.company) LIKE :search
-         OR LOWER(lead.phone) LIKE :search
-         OR LOWER(lead.location) LIKE :search
-         OR LOWER(lead.requirement) LIKE :search
-         OR LOWER(lead.email) LIKE :search`,
+
+      query.andWhere(
+        `(
+        LOWER(lead.first_name) LIKE :search
+        OR LOWER(lead.last_name) LIKE :search
+        OR LOWER(lead.company) LIKE :search
+        OR LOWER(lead.phone) LIKE :search
+        OR LOWER(lead.location) LIKE :search
+        OR LOWER(lead.requirement) LIKE :search
+        OR LOWER(lead.email) LIKE :search
+      )`,
         { search },
       );
     }
 
+    // Status
     if (statusId && statusId !== "All Status") {
-      query = query.andWhere("status.id = :statusId", { statusId });
+      query.andWhere("status.id = :statusId", { statusId });
     }
 
+    // Type
     if (typeId && typeId !== "All Type") {
-      query = query.andWhere("type.id = :typeId", { typeId });
+      query.andWhere("type.id = :typeId", { typeId });
     }
 
+    // Source
     if (sourceId && sourceId !== "All Source") {
-      query = query.andWhere("source.id = :sourceId", { sourceId });
+      query.andWhere("source.id = :sourceId", { sourceId });
     }
 
-    if (assignedToId && assignedToId !== "All Assigned") {
-      query = query.andWhere("assigned_to.id = :assignedToId", {
+    // Admin can filter by assigned user
+    if (
+      role?.trim().toLowerCase() === "admin" &&
+      assignedToId &&
+      assignedToId !== "All Assigned"
+    ) {
+      query.andWhere("assigned_to.id = :assignedToId", {
         assignedToId,
       });
     }
 
+    // Date range
     const now = referenceDate ? new Date(referenceDate) : new Date();
 
     if (dateRange && dateRange !== "All") {
-      let start: Date | undefined = undefined;
-      let end: Date | undefined = undefined;
+      let start: Date | undefined;
+      let end: Date | undefined;
 
       if (dateRange === "Daily") {
         start = new Date(now);
         start.setHours(0, 0, 0, 0);
+
         end = new Date(now);
         end.setHours(23, 59, 59, 999);
-      } else if (dateRange === "Weekly") {
+      }
+
+      if (dateRange === "Weekly") {
         start = new Date(now);
         start.setDate(now.getDate() - now.getDay());
         start.setHours(0, 0, 0, 0);
+
         end = new Date(start);
         end.setDate(start.getDate() + 6);
         end.setHours(23, 59, 59, 999);
-      } else if (dateRange === "Monthly") {
+      }
+
+      if (dateRange === "Monthly") {
         start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
+
         end = new Date(
           now.getFullYear(),
           now.getMonth() + 1,
@@ -438,15 +630,16 @@ export const LeadService = () => {
       }
 
       if (start && end) {
-        query = query.andWhere("lead.created_at BETWEEN :start AND :end", {
+        query.andWhere("lead.created_at BETWEEN :start AND :end", {
           start,
           end,
         });
       }
     }
 
+    // Follow-up filters
     if (followupFrom && followupTo) {
-      query = query.andWhere(
+      query.andWhere(
         "followup.due_date BETWEEN :followupFrom AND :followupTo",
         {
           followupFrom,
@@ -454,46 +647,29 @@ export const LeadService = () => {
         },
       );
     } else if (followupFrom) {
-      query = query.andWhere("followup.due_date >= :followupFrom", {
+      query.andWhere("followup.due_date >= :followupFrom", {
         followupFrom,
       });
     } else if (followupTo) {
-      query = query.andWhere("followup.due_date <= :followupTo", {
+      query.andWhere("followup.due_date <= :followupTo", {
         followupTo,
       });
     }
-    if (role?.trim().toLowerCase() !== "admin") {
-      if (!userId) {
-        throw new Error("User ID is required");
-      }
 
-      query.andWhere("assigned_to.id = :userId", {
-        userId,
-      });
-    }
+    query.orderBy("lead.created_at", "DESC").skip(skip).take(limit);
 
-    query.orderBy("lead.created_at", "DESC");
-    query.skip(skip).take(limit);
+    console.log("SQL:", query.getSql());
+    console.log("PARAMETERS:", query.getParameters());
 
     const [leads, total] = await query.getManyAndCount();
-    let filteredLeads = leads;
-    console.log("filteredLeads 1", filteredLeads.length);
 
-    // if (role?.trim().toLowerCase() !== "admin") {
-    //   if (!userId) {
-    //     throw new Error("User ID is required");
-    //   }
+    console.log("RETURNED LEADS:", leads.length);
+    console.log("TOTAL:", total);
 
-    //   filteredLeads = leads.filter((lead: any) => {
-    //     console.log(lead.assigned_to?.id, "1 userId", userId);
-    //     return String(lead.assigned_to?.id) === String(userId);
-    //   });
-    // }
-    console.log("filteredLeads 2", filteredLeads.length);
     return {
-      data: filteredLeads,
+      data: leads,
       pagination: {
-        total: filteredLeads.length,
+        total,
         page,
         limit,
         totalPages: Math.ceil(total / limit),
