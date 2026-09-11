@@ -83,9 +83,12 @@ export const dashboardController = () => {
           //   subtitle: "Weekly Leads"
           // },
           {
-            count: leadStats.totalLeads
-              ? `${Math.round((leadStats.convertedLeads / leadStats.totalLeads) * 100)}%`
-              : "0%",
+            count:
+              leadStats.totalLeads > 0
+                ? `${Math.round(
+                    (leadStats.convertedLeads / leadStats.totalLeads) * 100,
+                  )}%`
+                : "0%",
             title: "Conversion Rate",
             subtitle: "Lead to Customer",
           },
