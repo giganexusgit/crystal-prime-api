@@ -59,6 +59,7 @@ export const dashboardController = () => {
           // clientFollowupService.getTodayFollowupsCount(userId, role),
           leadService.getTodayAssignedLeadsCount(userId),
         ]);
+        console.log("leadStats.totalLeads > 0", leadStats.totalLeads > 0);
 
         // Stats for cards
         const stats = [
