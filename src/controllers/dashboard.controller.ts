@@ -59,23 +59,6 @@ export const dashboardController = () => {
           // clientFollowupService.getTodayFollowupsCount(userId, role),
           leadService.getTodayAssignedLeadsCount(userId),
         ]);
-        console.log("1", leadStats.totalLeads > 0);
-        console.log(
-          "2",
-
-          leadStats.totalLeads > 0
-            ? `${Math.round(
-                (leadStats.convertedLeads / leadStats.totalLeads) * 100,
-              )}%`
-            : "0%",
-        );
-        console.log(
-          "3",
-
-          `${Math.round(
-            (leadStats.convertedLeads / leadStats.totalLeads) * 100,
-          )}%`,
-        );
 
         // Stats for cards
         const stats = [
@@ -94,17 +77,10 @@ export const dashboardController = () => {
             title: "Converted Leads",
             subtitle: "Weekly Leads",
           },
-          // {
-          //   count: String(leadStats.lostLeads || 0),
-          //   title: "Lost Leads",
-          //   subtitle: "Weekly Leads"
-          // },
           {
             count:
               leadStats.totalLeads > 0
-                ? `${Math.round(
-                    (leadStats.convertedLeads / leadStats.totalLeads) * 100,
-                  )}%`
+                ? `${((leadStats.convertedLeads / leadStats.totalLeads) * 100).toFixed(2).replace(/\.?0+$/, "")}%`
                 : "0%",
             title: "Conversion Rate",
             subtitle: "Lead to Customer",
